@@ -32,7 +32,7 @@ Python Libraries: moviepy, pydub, boto3, openai-whisper, torch.
 
 AWS Account & Credentials: For Amazon Polly TTS.
 
-🚀 Installation & Setup
+  Installation & Setup
 Follow these steps to set up the project on your machine.
 
 1. Install Python 3
