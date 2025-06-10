@@ -4,7 +4,7 @@ This Python script automates the creation of YouTube Shorts-style videos featuri
 
 It leverages Whisper AI for highly accurate word timing, Amazon Polly for natural-sounding voices, and MoviePy for efficient video composition.
 
-✨ Features
+Features
 Automated Subtitles: Generates animated, word-by-word subtitles.
 
 Accurate Timing: Utilizes Whisper AI for precise synchronization of subtitles with speech. Falls back to an intelligent estimation method if Whisper is unavailable or struggles.
@@ -21,7 +21,7 @@ High-Quality Output: Renders vertical videos suitable for platforms like YouTube
 
 Clean for GitHub: No hardcoded sensitive API keys or local file paths. All external resources are configured via environment variables or command-line arguments.
 
-📋 Prerequisites
+  Prerequisites
 Before you can run this script, ensure you have the following installed:
 
 Python 3.x: (Tested with Python 3.8+)
@@ -167,7 +167,7 @@ Optional Arguments:
 
 --voice-gender [J|M]: Choose voice gender for Amazon Polly. J for Joanna (female, default), M for Matthew (male).
 
-💡 Troubleshooting
+  Troubleshooting
 ffmpeg not found: Ensure FFmpeg is installed and its bin directory is added to your system's PATH environment variable.
 
 json.JSONDecodeError: Check your story.json or obfuscation.json for syntax errors. Common issues include missing commas, unclosed brackets/braces, or unescaped double quotes (") within string values (use \" instead).
@@ -178,5 +178,5 @@ Slow Rendering: The script uses preset="fast" for rendering. If it's still too s
 
 No AWS Credentials Error: Make sure your AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_REGION environment variables are set correctly, or that you've configured the AWS CLI via aws configure.
 
-📜 License
+  License
 This project is open-source and available under the MIT License.
