@@ -178,5 +178,4 @@ Slow Rendering: The script uses preset="fast" for rendering. If it's still too s
 
 No AWS Credentials Error: Make sure your AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_REGION environment variables are set correctly, or that you've configured the AWS CLI via aws configure.
 
-  License
-This project is open-source and available under the MIT License.
+
