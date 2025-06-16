@@ -32,7 +32,7 @@ try:
     print(" Amazon Polly client (boto3) available.")
 except ImportError:
     POLLY_AVAILABLE = False
-    print("❌ Amazon Polly client (boto3) not available.")
+    print(" Amazon Polly client (boto3) not available.")
     print("Install with: pip install boto3")
 
 
@@ -72,11 +72,11 @@ class RedditTTSSubtitles:
                 self.polly_available = True
                 print(" Amazon Polly client initialized. Credentials are loaded from environment/config.")
             except Exception as e:
-                print(f"❌ Error initializing Amazon Polly client. Ensure AWS credentials are configured: {e}")
+                print(f" Error initializing Amazon Polly client. Ensure AWS credentials are configured: {e}")
                 print("   (e.g., via environment variables like AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, or AWS CLI 'aws configure').")
                 self.polly_available = False # Explicitly set to False on error
         else:
-            print("❌ Amazon Polly module (boto3) not loaded due to ImportError.")
+            print(" Amazon Polly module (boto3) not loaded due to ImportError.")
 
         # Font paths - now passed as arguments to __init__
         self.font_path_main = font_main_path
