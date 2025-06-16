@@ -29,7 +29,7 @@ import random
 try:
     import boto3
     POLLY_AVAILABLE = True
-    print("✅ Amazon Polly client (boto3) available.")
+    print(" Amazon Polly client (boto3) available.")
 except ImportError:
     POLLY_AVAILABLE = False
     print("❌ Amazon Polly client (boto3) not available.")
@@ -41,10 +41,10 @@ try:
     import whisper
     import torch
     WHISPER_AVAILABLE = True
-    print("✅ Whisper AI available for maximum accuracy")
+    print(" Whisper AI available for maximum accuracy")
 except ImportError:
     WHISPER_AVAILABLE = False
-    print("⚠️  Whisper AI not available, using fallback methods")
+    print("  Whisper AI not available, using fallback methods")
     print("For best accuracy, install with: pip install pip install openai-whisper torch")
 
 class RedditTTSSubtitles:
@@ -70,7 +70,7 @@ class RedditTTSSubtitles:
                 # or from ~/.aws/credentials and ~/.aws/config files.
                 self.polly_client = boto3.client('polly') 
                 self.polly_available = True
-                print("✅ Amazon Polly client initialized. Credentials are loaded from environment/config.")
+                print(" Amazon Polly client initialized. Credentials are loaded from environment/config.")
             except Exception as e:
                 print(f"❌ Error initializing Amazon Polly client. Ensure AWS credentials are configured: {e}")
                 print("   (e.g., via environment variables like AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, or AWS CLI 'aws configure').")
@@ -92,9 +92,9 @@ class RedditTTSSubtitles:
                 # You might consider loading a larger model like "small" or "medium" for better accuracy
                 # self.whisper_model = whisper.load_model("small")
                 self.whisper_model = whisper.load_model("base")
-                print("✅ Whisper model loaded successfully")
+                print(" Whisper model loaded successfully")
             except Exception as e:
-                print(f"⚠️  Failed to load Whisper model: {e}")
+                print(f"  Failed to load Whisper model: {e}")
                 self.whisper_model = None
 
         # Dictionary for common abbreviations to full phrases
@@ -152,14 +152,14 @@ class RedditTTSSubtitles:
             if obfuscation_file_path and os.path.exists(obfuscation_file_path):
                 with open(obfuscation_file_path, 'r', encoding='utf-8') as f:
                     self.obfuscation_map = json.load(f)
-                print(f"✅ Loaded obfuscation map from: {obfuscation_file_path}")
+                print(f" Loaded obfuscation map from: {obfuscation_file_path}")
             else:
-                print(f"⚠️ Obfuscation file not found at: {obfuscation_file_path if obfuscation_file_path else 'None provided'}. No words will be obfuscated.")
+                print(f" Obfuscation file not found at: {obfuscation_file_path if obfuscation_file_path else 'None provided'}. No words will be obfuscated.")
         except json.JSONDecodeError:
-            print(f"❌ Error: Invalid JSON format in obfuscation file: {obfuscation_file_path}. No words will be obfuscated.")
+            print(f" Error: Invalid JSON format in obfuscation file: {obfuscation_file_path}. No words will be obfuscated.")
             self.obfuscation_map = {}
         except Exception as e:
-            print(f"❌ Error loading obfuscation map: {e}. No words will be obfuscated.")
+            print(f" Error loading obfuscation map: {e}. No words will be obfuscated.")
             self.obfuscation_map = {}
 
 
@@ -200,7 +200,7 @@ class RedditTTSSubtitles:
         if not self.whisper_model:
             return None
 
-        print("🎯 Analyzing audio with Whisper AI for precise word timing...")
+        print(" Analyzing audio with Whisper AI for precise word timing...")
 
         try:
             # Transcribe with word-level timestamps
@@ -224,13 +224,13 @@ class RedditTTSSubtitles:
                         'confidence': word_info.get('probability', 1.0)
                     })
 
-            print(f"✅ Whisper found {len(word_timings)} words with precise timestamps")
+            print(f" Whisper found {len(word_timings)} words with precise timestamps")
 
             # Quality check - if Whisper found too few words, use hybrid approach
             original_words = original_text.split()
             # This threshold might need fine-tuning based on your content/model
             if len(word_timings) < len(original_words) * 0.7:  # Less than 70% match
-                print("🔄 Whisper missed some words, using hybrid approach...")
+                print(" Whisper missed some words, using hybrid approach...")
                 return self.create_hybrid_timings(word_timings, original_words, audio_path)
 
             return word_timings
@@ -302,7 +302,7 @@ class RedditTTSSubtitles:
         if hybrid_timings and hybrid_timings[-1]['end'] > total_duration + 0.1:
              hybrid_timings[-1]['end'] = total_duration # Cap the end time if it overshoots
 
-        print(f"✅ Hybrid timing created: {len(hybrid_timings)} words")
+        print(f" Hybrid timing created: {len(hybrid_timings)} words")
         return hybrid_timings
 
     def estimate_word_duration(self, word):
@@ -323,7 +323,7 @@ class RedditTTSSubtitles:
 
     def analyze_speech_timing(self, audio_path, text):
         """Master function - tries Whisper first, falls back to other methods"""
-        print("🎯 Starting speech timing analysis...")
+        print(" Starting speech timing analysis...")
 
         # Try Whisper first (most accurate)
         if self.whisper_model:
@@ -332,7 +332,7 @@ class RedditTTSSubtitles:
                 return whisper_result
 
         # Fallback to estimation
-        print("🔄 Falling back to estimation method...")
+        print(" Falling back to estimation method...")
         try:
             # Get audio duration
             audio_clip = AudioFileClip(audio_path)
@@ -531,9 +531,9 @@ class RedditTTSSubtitles:
                 rewards_img_width = int(rewards_img_raw.width * (rewards_target_height / rewards_img_raw.height))
                 rewards_img = rewards_img_raw.resize((rewards_img_width, rewards_target_height), Image.Resampling.LANCZOS)
                 rewards_display_height = rewards_img.height
-                print(f"✅ Loaded and resized rewards.png to {rewards_img.width}x{rewards_img.height}")
+                print(f" Loaded and resized rewards.png to {rewards_img.width}x{rewards_img.height}")
             else:
-                print(f"⚠️ Warning: rewards.png not found at {rewards_img_path}. Skipping image overlay.")
+                print(f" Warning: rewards.png not found at {rewards_img_path}. Skipping image overlay.")
         except Exception as e:
             print(f"❌ Error loading or processing rewards.png: {e}. Skipping image overlay.")
             rewards_img = None
@@ -560,13 +560,13 @@ class RedditTTSSubtitles:
                     # Apply mask to avatar
                     selected_avatar_img = Image.new('RGBA', (avatar_size, avatar_size), (0, 0, 0, 0))
                     selected_avatar_img.paste(avatar_resized, (0, 0), mask)
-                    print(f"✅ Loaded and processed random avatar: {random_avatar_file}")
+                    print(f" Loaded and processed random avatar: {random_avatar_file}")
                 else:
-                    print(f"⚠️ No PNG files found in '{reddit_avatars_folder}'. Skipping avatar overlay.")
+                    print(f" No PNG files found in '{reddit_avatars_folder}'. Skipping avatar overlay.")
             else:
-                print(f"❌ Reddit avatars folder '{reddit_avatars_folder}' not found or not a directory. Skipping avatar overlay.")
+                print(f" Reddit avatars folder '{reddit_avatars_folder}' not found or not a directory. Skipping avatar overlay.")
         except Exception as e:
-            print(f"❌ Error loading or processing Reddit avatar: {e}. Skipping avatar overlay.")
+            print(f" Error loading or processing Reddit avatar: {e}. Skipping avatar overlay.")
             selected_avatar_img = None
 
 
@@ -662,7 +662,7 @@ class RedditTTSSubtitles:
             optimal_story_title_font_size = 10
             best_story_title_font = self.get_best_font(optimal_story_title_font_size)
             best_wrapped_lines = wrap_text_for_size(story_title, best_story_title_font, card_text_max_width)
-            print("⚠️ Could not find optimal story title font size, using a small default.")
+            print(" Could not find optimal story title font size, using a small default.")
 
 
         # Now, make the frame with the determined font and wrapped text
@@ -773,7 +773,7 @@ class RedditTTSSubtitles:
                 file.write(response['AudioStream'].read())
             all_audio_segments_list.append(AudioSegment.from_mp3(temp_audio_file))
         except Exception as e:
-            print(f"❌ Error synthesizing chunk: {e}")
+            print(f" Error synthesizing chunk: {e}")
             raise # Re-raise to stop processing if a chunk fails
 
 
@@ -784,7 +784,7 @@ class RedditTTSSubtitles:
         voice_gender: 'J' for Joanna (female), 'M' for Matthew (male). Defaults to Joanna.
         """
         if not self.polly_available or self.polly_client is None:
-            print("❌ Amazon Polly client not initialized. Skipping TTS generation.")
+            print(" Amazon Polly client not initialized. Skipping TTS generation.")
             return False
 
         print(f"Generating TTS audio using Amazon Polly for {len(text)} characters...")
@@ -808,7 +808,7 @@ class RedditTTSSubtitles:
                     self._synthesize_and_append(current_chunk_text, voice_id, all_audio_segments)
                     current_chunk_text = ""
 
-                print(f"⚠️ Sentence too long ({len(sentence)} chars), splitting into sub-chunks.")
+                print(f" Sentence too long ({len(sentence)} chars), splitting into sub-chunks.")
                 # Break long sentence into smaller chunks
                 for i in range(0, len(sentence), self.POLLY_MAX_CHARS):
                     sub_chunk = sentence[i:i + self.POLLY_MAX_CHARS]
@@ -840,7 +840,7 @@ class RedditTTSSubtitles:
             print(f"Amazon Polly TTS audio (combined from chunks) saved to: {output_path}")
             return True
         except Exception as e:
-            print(f"❌ Error exporting combined TTS audio: {e}")
+            print(f" Error exporting combined TTS audio: {e}")
             return False
 
     def create_subtitle_video(self, text, background_video_path, output_path, story_title_arg, post_author_arg, rewards_img_path, reddit_avatars_folder, voice_gender_arg='J'):
@@ -905,7 +905,7 @@ class RedditTTSSubtitles:
 
             # Check if background video is long enough for the ENTIRE composite video
             if background_full.duration < total_final_video_duration:
-                print(f"❌ Error: Background video ({background_full.duration:.2f}s) is shorter than the total required video duration ({total_final_video_duration:.2f}s).")
+                print(f" Error: Background video ({background_full.duration:.2f}s) is shorter than the total required video duration ({total_final_video_duration:.2f}s).")
                 print("Please provide a background video that is longer than or equal to the total video duration to avoid looping.")
                 background_full.close() # Close the clip before exiting
                 return False
@@ -972,8 +972,8 @@ class RedditTTSSubtitles:
             else:
                 timing_method = "Estimation (Basic Accuracy)"
 
-            print(f"🎯 Timing Method: {timing_method}")
-            print(f"📊 Average Confidence: {avg_confidence:.2f}")
+            print(f" Timing Method: {timing_method}")
+            print(f" Average Confidence: {avg_confidence:.2f}")
 
         print(f"Creating subtitle overlay for main content with {len(word_timings)} words...")
 
@@ -1050,11 +1050,11 @@ class RedditTTSSubtitles:
                 preset="fast" # Changed to "fast" for quicker rendering
             )
 
-            print(f"✅ Enhanced subtitle video created successfully: {output_path}")
+            print(f" Enhanced subtitle video created successfully: {output_path}")
             success = True
 
         except PermissionError as e: # Catch PermissionError specifically
-            print(f"❌ Error: Permission denied when writing output file. Please check:")
+            print(f" Error: Permission denied when writing output file. Please check:")
             print(f"   1. Do you have write permissions to the directory '{os.path.dirname(output_path)}'?")
             print(f"   2. Is the output file '{output_path}' currently open in another program (e.g., a video player)? If so, close it and try again.")
             print(f"   3. Try saving to a different location, like your Desktop or a temporary folder, to rule out directory-specific issues.")
@@ -1062,7 +1062,7 @@ class RedditTTSSubtitles:
             traceback.print_exc()
             success = False
         except Exception as e:
-            print(f"❌ An unexpected error occurred during compositing: {e}")
+            print(f" An unexpected error occurred during compositing: {e}")
             import traceback
             traceback.print_exc()
             success = False
@@ -1181,11 +1181,11 @@ def main():
     # Show available analysis methods
     print("🔍 Available timing analysis methods:")
     if WHISPER_AVAILABLE:
-        print("   ✅ Whisper AI (Highest Accuracy)")
+        print("   Whisper AI (Highest Accuracy)")
     else:
-        print("   ❌ Whisper AI (Install: pip install openai-whisper torch)")
+        print("   Whisper AI (Install: pip install openai-whisper torch)")
 
-    print("   ✅ Enhanced Estimation (Basic Accuracy)")
+    print("   Enhanced Estimation (Basic Accuracy)")
     print()
 
     # Create subtitle generator, passing file paths for fonts and avatars
@@ -1211,10 +1211,10 @@ def main():
         return 0 if success else 1
 
     except KeyboardInterrupt:
-        print("\n⚠️  Operation cancelled by user")
+        print("\n  Operation cancelled by user")
         return 1
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f Error: {e}")
         import traceback
         traceback.print_exc()
         return 1
