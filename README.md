@@ -119,7 +119,7 @@ The keys are the words to obfuscate (lowercase), and values are a list of replac
 
 Fonts: The script defaults to looking for Montserrat-SemiBold.ttf and Arial.ttf in common system font directories or the current working directory. If you want to use specific fonts, provide their full paths using the --font-main-path and --font-fallback-path arguments.
 
-🚀 Usage
+Usage
 Navigate to your your_project_folder in the terminal and run the script with the required arguments.
 
 cd path/to/your_project_folder
